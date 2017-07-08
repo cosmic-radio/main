@@ -13,10 +13,8 @@ import javax.sound.sampled.*;
 public class SamplePlayer {
 
     private Clip[] clips;
-    private Clip[] clips2;
 
     public SamplePlayer(String samplesPath) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-
 
         clips = new Clip[12];
 

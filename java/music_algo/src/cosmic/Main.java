@@ -16,7 +16,6 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static int FRAME_TIME = 60;
     private static int[] steps = {1, 3, 5, 7, 8};
 
     public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
@@ -26,7 +25,7 @@ public class Main {
 
         SamplePlayer sp = new SamplePlayer("samples");
 
-        MusicFinder mf = new MusicFinder(4, 1280);
+        MusicFinder mf = new MusicFinder(2, 1280);
         int offset = mf.bufferData(firstFrame, 0);
         mf.addScale(steps);
 

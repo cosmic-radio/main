@@ -36,7 +36,7 @@ public class MusicFinder {
 
         int[] normalized = new int[data.length];
 
-        for(int i = 0; i < data.length; i++){
+        for(int i = offset; i < offset + bufferSize*sampleRate; i++){
 
             int n = (int) data[i];
             n = n % 12;
