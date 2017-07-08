@@ -16,17 +16,31 @@ import java.util.Scanner;
 
 public class Main {
 
+    private static int FRAME_TIME = 60;
+    private static int[] steps = {1, 3, 5, 7, 8};
+
     public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
+
+        double[][] data = loadData(Rounding.UP);
+        double[] firstFrame = data[0];
 
         SamplePlayer sp = new SamplePlayer("samples");
 
-        for(int i = 0; i < 12; i++){
+        MusicFinder mf = new MusicFinder(4, 1280);
+        int offset = mf.bufferData(firstFrame, 0);
+        mf.addScale(steps);
 
-            sp.playClip(i);
-            Thread.sleep(500);
-            System.out.println(i);
+        int[] notes = mf.find();
+
+        int coun = 0;
+        for(int i : notes){
+
+            System.out.print(i + " ");
+            if (coun++ % 10 == 0) System.out.print("\n");
+
+            if(i != 0) sp.playClip(i);
+            Thread.sleep(230);
         }
-
     }
 
     private static double[][] loadData(Rounding rounding) throws FileNotFoundException {

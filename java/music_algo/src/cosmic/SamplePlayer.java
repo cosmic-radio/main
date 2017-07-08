@@ -2,6 +2,9 @@ package cosmic;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.sound.sampled.*;
 
 /**
@@ -10,6 +13,7 @@ import javax.sound.sampled.*;
 public class SamplePlayer {
 
     private Clip[] clips;
+    private Clip[] clips2;
 
     public SamplePlayer(String samplesPath) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 
@@ -28,10 +32,18 @@ public class SamplePlayer {
             int index = Integer.parseInt(f.getName().substring(0,f.getName().indexOf(".")))-1;
             clips[index] = c;
         }
+
+
     }
 
     public void playClip(int clipNo) throws InterruptedException {
 
+        clips[clipNo].setFramePosition(0);
         clips[clipNo].start();
+        int fifth = (clipNo+5)%12;
+        if(Math.random() > 0.8){
+            clips[fifth].setFramePosition(0);
+            clips[fifth].start();
+        }
     }
 }
