@@ -10,74 +10,71 @@ import java.util.TreeSet;
  */
 public class MusicFinder {
 
-    List<Scale> scales;
+    Set<Integer> scale;
     int sampleRate;
     int bufferSize;
-    int[] buffer;
+    double[][] buffer;
+    int[][] normalizedBuffer;
 
     public MusicFinder(int initSampleRate, int bufferSize){
         this.sampleRate = initSampleRate;
         this.bufferSize = bufferSize;
-        buffer = new int[bufferSize];
-        scales = new ArrayList<>();
     }
 
-    public void addScale(Scale scale){
-        scales.add(scale);
+    public void setScale(Set<Integer> scale){
+        this.scale = scale;
     }
 
-    public void addScale(int[] scale){
+    public int bufferData(double[][] data, int channels, int offset){
 
-        Scale sc = new Scale(scale);
-        scales.add(sc);
+        buffer = new double[channels][bufferSize];
+
+        for(int c = 0; c < channels; c++) System.arraycopy(data[c], offset, this.buffer[c], 0, bufferSize);
+        return offset + bufferSize;
     }
 
-    public int bufferData(double[] data, int offset){
+    public void normalizeChannels(){
 
-        int[] normalized = new int[data.length];
+        normalizedBuffer = new int[buffer.length][bufferSize];
 
-        for(int i = offset; i < offset + bufferSize*sampleRate; i++){
+        for(int j = 0; j < buffer.length; j++){
+            for(int i = 0; i < bufferSize; i++){
 
-            int n = (int) data[i];
-            n = n % 12;
-            normalized[i] = n;
-        }
-
-        for(int i = 0; i < bufferSize; i++){
-
-            try{
-                buffer[i] = normalized[offset+i*sampleRate];
-
-            } catch (ArrayIndexOutOfBoundsException e){
-                return -1;
+                int n = (int) buffer[j][i];
+                n = n % 12;
+                normalizedBuffer[j][i] = n;
             }
         }
-        return offset + bufferSize*sampleRate;
     }
 
-    public int[] find(){
+    public int[] findMelody(Rythm rythm){
 
-        int[] notes = new int[bufferSize];
+        int best = 0;
+        int[] bestNotes = null;
 
-        for(int i = 0; i < bufferSize; i++){
+        for(int j = 0; j < normalizedBuffer.length; j++){
 
-            if(scales.get(0).steps.contains(buffer[i])) notes[i] = buffer[i];
-            else notes[i] = 0;
-        }
-        return notes;
-    }
+            int score = 0;
+            int[] notes = new int[bufferSize];
 
+            for(int i = 0; i < bufferSize; i++){
 
-    class Scale {
+                int note;
+                if(rythm.nextBool()) note = normalizedBuffer[j][i];
+                else note = 0;
 
-        Set<Integer> steps;
+                if(!scale.contains(note)) note = 0;
+                else score += 1;
 
-        public Scale(int[] steps){
+                notes[i] = note;
+            }
 
-            this.steps = new TreeSet<>();
-            for(int step: steps){
-                this.steps.add(step);
+            if(score > best){
+                bestNotes = notes;
+                best = score;
             }
         }
+
+        return bestNotes;
     }
 }

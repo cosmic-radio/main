@@ -2,9 +2,9 @@ package cosmic;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.sound.sampled.*;
 
 /**
@@ -12,11 +12,14 @@ import javax.sound.sampled.*;
  */
 public class SamplePlayer {
 
-    private Clip[] clips;
+    private Clip[] clipNotes;
+    private Map<String, Clip> clips;
+
 
     public SamplePlayer(String samplesPath) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 
-        clips = new Clip[12];
+        clipNotes = new Clip[12];
+        clips = new HashMap<>();
 
         File dir = new File(samplesPath);
         File[] sampleFiles = dir.listFiles();
@@ -27,21 +30,46 @@ public class SamplePlayer {
             Clip c = AudioSystem.getClip();
             c.open(ais);
 
-            int index = Integer.parseInt(f.getName().substring(0,f.getName().indexOf(".")))-1;
-            clips[index] = c;
+            if(samplesPath.equals("sounds/" + Main.PRESET)){
+                int index = Integer.parseInt(f.getName().substring(0,f.getName().indexOf(".")))-1;
+                clipNotes[index] = c;
+            } else {
+                clips.put(f.getName().substring(0,f.getName().indexOf(".")), c);
+            }
         }
+    }
 
+    public void playNote(int clipNo){
+
+        clipNotes[clipNo].setFramePosition(0);
+        clipNotes[clipNo].start();
+    }
+
+    public void playChord(int clipNo, int type){
+
+        clipNotes[clipNo].setFramePosition(0);
+        clipNotes[clipNo].start();
+        int chord = (clipNo+type)%12;
+
+        clipNotes[chord].setFramePosition(0);
+        clipNotes[chord].start();
+    }
+
+    public void playChordRandom(int clipNo, double chance, int type){
+
+        clipNotes[clipNo].setFramePosition(0);
+        clipNotes[clipNo].start();
+        int chord = (clipNo+type)%12;
+        if(Math.random() < chance){
+            clipNotes[chord].setFramePosition(0);
+            clipNotes[chord].start();
+        }
 
     }
 
-    public void playClip(int clipNo) throws InterruptedException {
+    public void playClip(String clipId){
 
-        clips[clipNo].setFramePosition(0);
-        clips[clipNo].start();
-        int fifth = (clipNo+5)%12;
-        if(Math.random() > 0.8){
-            clips[fifth].setFramePosition(0);
-            clips[fifth].start();
-        }
+        clips.get(clipId).setFramePosition(0);
+        clips.get(clipId).start();
     }
 }
