@@ -25,13 +25,13 @@ public class Main {
 
        Rythm kick = new Rythm(0);
        Rythm hat = new Rythm(1);
-       Rythm r1 = new Rythm(2);
+       Rythm r1 = new Rythm(6);
        Rythm r2 = new Rythm(5);
 
 
         MusicFinder mf = new MusicFinder(2, 3200);
 
-        mf.setScale(Scale.get(1));
+        mf.setScale(Scale.get(3));
 
         int offset = mf.bufferData(data, 40, 0);
 
