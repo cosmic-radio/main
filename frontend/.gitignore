@@ -1,0 +1,5 @@
+_site/**/*.js
+_site/**/*.js.map
+_site/**/*.css
+_site/**/*.css.map
+node_modules/

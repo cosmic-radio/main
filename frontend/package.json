@@ -1,0 +1,21 @@
+{
+  "name": "Apeiro",
+  "version": "1.0.0",
+  "description": "cosmic radio",
+  "main": "index.js",
+  "scripts": {
+    "sass": "gulp sass",
+    "js": "gulp js",
+    "serve": "gulp serve"
+  },
+  "author": "KCJambalaya & JMeteor",
+  "license": "MIT",
+  "devDependencies": {
+    "browser-sync": "^2.18.12",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-clean-css": "^3.7.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.0"
+  }
+}
