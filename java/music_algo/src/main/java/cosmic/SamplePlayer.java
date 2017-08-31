@@ -25,7 +25,10 @@ public class SamplePlayer {
         clipNotes = new Clip[12];
         clips = new HashMap<>();
 
-        clipNotes[0].open(new AudioInputStream());
+        for(int i = 0; i < 12; i++){
+            AudioInputStream as = AudioSystem.getAudioInputStream(getClass().getClassLoader().getResourceAsStream("sounds/nz/" + i + 1 + ".wav"));
+            clipNotes[i] = as.
+        }
 
     }
 
