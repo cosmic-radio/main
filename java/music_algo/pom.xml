@@ -107,14 +107,21 @@
                 </includes>
             </resource>
 
-            <!--<resource>-->
-                <!--<directory>src/main/resources/sounds</directory>-->
-                <!--<targetPath>/sounds</targetPath>-->
-                <!--<includes>-->
-                    <!--<include>*</include>-->
-                <!--</includes>-->
-            <!--</resource>-->
+            <resource>
+                <directory>src/main/resources/sounds/nz</directory>
+                <targetPath>sounds/nz</targetPath>
+                <includes>
+                    <include>*</include>
+                </includes>
+            </resource>
 
+            <resource>
+                <directory>src/main/resources/sounds/drums</directory>
+                <targetPath>sounds/drums</targetPath>
+                <includes>
+                    <include>*</include>
+                </includes>
+            </resource>
         </resources>
 
     </build>
