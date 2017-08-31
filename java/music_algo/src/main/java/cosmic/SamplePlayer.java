@@ -1,8 +1,11 @@
 package cosmic;
 
+
+import org.apache.commons.io.IOUtils;
+
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -27,15 +30,15 @@ public class SamplePlayer {
         clips = new HashMap<>();
 
         for(int i = 0; i < 12; i++){
-            URL url = getClass().getClassLoader().getResource("sounds/nz/" + i + 1 + ".wav");
-            AudioInputStream as = AudioSystem.getAudioInputStream(url);
+            byte[] arr = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("sounds/nz/" + i + 1 + ".wav"));
+            ByteArrayInputStream s = new ByteArrayInputStream(arr);
+            AudioInputStream as = AudioSystem.getAudioInputStream(s);
             Clip c = AudioSystem.getClip();
             c.open(as);
             clipNotes[i] = c;
         }
 
-        URL url = getClass().getClassLoader().getResource("sounds/drums/hatl.wav");
-        AudioInputStream as = AudioSystem.getAudioInputStream(url);
+        AudioInputStream as = AudioSystem.getAudioInputStream(getClass().getClassLoader().getResourceAsStream("sounds/drums/hatl.wav"));
         Clip hat = AudioSystem.getClip();
         hat.open(as);
 
