@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/music_algo.iml" filepath="$PROJECT_DIR$/music_algo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/radio.iml" filepath="$PROJECT_DIR$/radio.iml" />
     </modules>
   </component>
 </project>
