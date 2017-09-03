@@ -3,9 +3,7 @@ package cosmic;
 
 import org.apache.commons.io.IOUtils;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -30,15 +28,20 @@ public class SamplePlayer {
         clips = new HashMap<>();
 
         for(int i = 0; i < 12; i++){
-            byte[] arr = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("sounds/nz/" + i + 1 + ".wav"));
-            ByteArrayInputStream s = new ByteArrayInputStream(arr);
-            AudioInputStream as = AudioSystem.getAudioInputStream(s);
+            int n = i + 1;
+            InputStream is = Main.class.getClassLoader().getResourceAsStream("sounds/nz/" + n + ".wav");
+//            System.out.println(is);
+//            byte[] arr = IOUtils.toByteArray(Main.class.getClassLoader().getResourceAsStream("sounds/nz/" + i + 1 + ".wav"));
+//            ByteArrayInputStream s = new ByteArrayInputStream(arr);
+            BufferedInputStream bis = new BufferedInputStream(is);
+            AudioInputStream as = AudioSystem.getAudioInputStream(bis);
             Clip c = AudioSystem.getClip();
             c.open(as);
             clipNotes[i] = c;
         }
 
-        AudioInputStream as = AudioSystem.getAudioInputStream(getClass().getClassLoader().getResourceAsStream("sounds/drums/hatl.wav"));
+        InputStream is = getClass().getClassLoader().getResourceAsStream("sounds/drums/hatl.wav");
+        AudioInputStream as = AudioSystem.getAudioInputStream(new BufferedInputStream(is));
         Clip hat = AudioSystem.getClip();
         hat.open(as);
 
