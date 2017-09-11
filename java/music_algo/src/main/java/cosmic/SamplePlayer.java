@@ -4,6 +4,7 @@ package cosmic;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
+import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +23,7 @@ public class SamplePlayer {
     private Map<String, Clip> clips;
 
 
-    public SamplePlayer(String samplesPath) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+    public SamplePlayer() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 
         clipNotes = new Clip[12];
         clips = new HashMap<>();
@@ -40,13 +41,16 @@ public class SamplePlayer {
             clipNotes[i] = c;
         }
 
-        InputStream is = getClass().getClassLoader().getResourceAsStream("sounds/drums/hatl.wav");
-        AudioInputStream as = AudioSystem.getAudioInputStream(new BufferedInputStream(is));
-        Clip hat = AudioSystem.getClip();
-        hat.open(as);
+        InputStream is = Main.class.getClassLoader().getResourceAsStream("sounds/s5.wav");
+        //byte[] arr = IOUtils.toByteArray(is);
+        //ByteArrayInputStream bs = new ByteArrayInputStream(arr);
+        AudioInputStream as = AudioSystem.getAudioInputStream(is);
+        Clip back = AudioSystem.getClip();
+        back.open(as);
 
-        clips.put("hatl", hat);
+        clips.put("back", back);
     }
+
 
     public void playNote(int clipNo){
 

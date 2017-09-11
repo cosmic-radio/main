@@ -16,6 +16,8 @@ public class MusicFinder {
     double[][] buffer;
     int[][] normalizedBuffer;
 
+    double[] freqs;
+
     public MusicFinder(int initSampleRate, int bufferSize){
         this.sampleRate = initSampleRate;
         this.bufferSize = bufferSize;
@@ -36,13 +38,30 @@ public class MusicFinder {
     public void normalizeChannels(){
 
         normalizedBuffer = new int[buffer.length][bufferSize];
+        freqs = new double[12];
+        for(int i = 0; i < 12; i++){
+            double factor = Math.pow(2, 1/24d);
+            if(i != 0) freqs[i] = factor*freqs[i-1];
+            else freqs[i] = 440;
+            System.out.print(freqs[i] + "  ");
+        }
 
         for(int j = 0; j < buffer.length; j++){
             for(int i = 0; i < bufferSize; i++){
 
                 int n = (int) buffer[j][i];
-                n = n % 12;
-                normalizedBuffer[j][i] = n;
+                double freq = (440d / 256) * n + 440;
+                int note = 0;
+
+                for(int t = 0; t < this.freqs.length; t++){
+                    if(freq < this.freqs[t]){
+                        note = t + 1;
+                        System.out.println(note);
+                        break;
+                    }
+                }
+
+                normalizedBuffer[j][i] = note;
             }
         }
     }

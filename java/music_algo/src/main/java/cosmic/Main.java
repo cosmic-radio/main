@@ -20,6 +20,18 @@ public class Main {
         double[][] data = loadData(Rounding.UP);
         double[] firstFrame = data[0];
 
+        double max = Double.MIN_VALUE;
+        double min = Double.MAX_VALUE;
+
+        for(int i = 0; i < data.length; i++){
+            for(int j = 0; j < data[0].length; j++){
+                if(data[i][j] > max) max = data[i][j];
+                if(data[i][j] < min) min = data[i][j];
+            }
+        }
+
+        System.out.println(min + "   " + max);
+
        Rythm.loadFile("rythm");
        Scale.loadFile("scales");
 
@@ -43,9 +55,9 @@ public class Main {
         mf.setScale(Scale.get(2));
         int[] notes3 = mf.findMelody(kick);
 
-        SamplePlayer synth = new SamplePlayer("sounds/" + PRESET);
-        SamplePlayer synth2 = new SamplePlayer("sounds/" + PRESET);
-        SamplePlayer drums = new SamplePlayer("sounds/drums");
+        SamplePlayer synth = new SamplePlayer();
+        SamplePlayer synth2 = new SamplePlayer();
+        SamplePlayer drums = new SamplePlayer();
 
         Integer[] ch = {5,7,2,0,9};
         List<Integer> chord = Arrays.asList(ch);
@@ -62,10 +74,10 @@ public class Main {
             if(notes1[i] != 0) synth.playChordRandom(notes1[i], 0.2, 7);
             if(notes2[i] != 0 && chord.contains(notes1[i] - notes2[i])) synth2.playNote(notes2[i]);
 
-            if(notes3[i] != 0) drums.playClip("hatl");
+            //if(notes3[i] != 0) drums.playClip("hatl");
 
             }
-        }, 0, 100);
+        }, 0, 200);
     }
 
     private static double[][] loadData(Rounding rounding) throws FileNotFoundException {
@@ -74,6 +86,8 @@ public class Main {
 
         String headerStr = scan.nextLine();
         JSONObject header = new JSONObject(headerStr);
+
+        System.out.println(header.toString());
 
         int numOfFrames = header.getInt("number_of_half_frames");
 
